@@ -1,27 +1,29 @@
-# 香川県高校説明会 2026｜参加者向け案内サイト
+# 香川県高校説明会 2026 — そらのほしグループ
 
-GitHub Pages で公開できる静的HTMLサイトです。ビルドやデータベースは不要です。
+## 公開サイト
+GitHub Pages で `index.html` を公開してください。
 
-## 公開手順
+## Supabase接続
+専用プロジェクト `kagawa-highschool-briefing` の URL と publishable key は `index.html` に設定済みです。ブラウザ用の公開キーのみ使用し、service_role / secret key はHTMLに置かないでください。
 
-1. GitHub にログインします。
-2. `kagawa-highschool-guide` という名前で **Public** リポジトリを新規作成します。
-3. このフォルダ内の `index.html` と `README.md` をリポジトリ直下にアップロードして Commit します。
-4. リポジトリの **Settings → Pages** を開きます。
-5. **Build and deployment** の Source を `Deploy from a branch` にします。
-6. Branch を `main`、フォルダを `/(root)` に設定して Save します。
-7. 公開処理が終わると `https://<GitHubユーザー名>.github.io/kagawa-highschool-guide/` 形式のURLで閲覧できます。
+## 管理者設定（必須）
+1. Supabase Dashboard の Authentication → Users で管理者アカウントを作成します。
+2. 作成したユーザーの UUID をコピーします。
+3. Supabase SQL Editor で次を実行し、UUIDを置き換えます。
+   ```sql
+   insert into public.survey_admins(user_id)
+   values ('ADMIN_USER_UUID')
+   on conflict do nothing;
+   ```
+4. 公開サイトの「主催者用管理画面」で、そのメールアドレスとパスワードを使ってログインします。
 
-## 公開前に必ず確認
+## データベース
+`supabase_setup.sql` のテーブルと権限設定は、専用プロジェクトに適用済みです。別環境で再構築するときは Supabase SQL Editor で実行してください。
 
-- 開催日時、会場、各階の用途が確定情報と一致していること
-- 参加高校名・公式サイトリンクが正しいこと
-- 問い合わせ先、主催者表記を確認すること
-- 仮のタイムテーブルや未確認情報があれば差し替えること
+## 機能
+- アンケート送信とSupabaseへの保存
+- 回答者の立場・満足度・役立ち度・役立った内容の自動集計
+- 管理者ログイン、回答一覧、CSV出力
+- 回答の読み取りは管理者として登録したアカウントに限定
 
-## ファイル
-
-- `index.html` — サイト本体
-- `README.md` — 公開手順
-
-このサイトは静的ページです。参加者情報の収集・ログイン・リアルタイム更新機能はありません。
+公開前にテスト回答・管理者ログイン・CSV出力を確認してください。
