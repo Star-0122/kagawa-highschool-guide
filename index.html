@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="topbar"><div class="topbar-inner"><span>そらのほしグループ｜高校進学情報</span><span>参加者向け案内ページ</span></div></div>
-<header><div class="brand">香川県高校説明会 <small>HIGH SCHOOL INFORMATION SESSION 2026</small></div><nav class="nav"><a href="#schedule">当日の流れ</a><a href="#floor">会場案内</a><a href="#schools">高校を調べる</a><a href="#prepare">参加前の確認</a><a href="survey.html">アンケート</a></nav></header>
+<header><div class="brand">香川県高校説明会 <small>HIGH SCHOOL INFORMATION SESSION 2026</small></div><nav class="nav"><a href="#schedule">当日の流れ</a><a href="#floor">会場案内</a><a href="#schools">高校を調べる</a><a href="#prepare">参加前の確認</a><a href="#checkin">入場受付（ENTRA）</a><a href="survey.html">アンケート</a></nav></header>
 <section class="hero"><div class="hero-inner"><div class="eyebrow">KAGAWA · 2026</div><h1>未来につながる、<br>高校選びを。</h1><p>香川県内の高校について情報を集め、自分に合った進路を考えるための案内ページです。当日の予定や会場の使い方をこちらで確認できます。</p><div class="hero-tags"><span class="tag">参加者向け案内</span><span class="tag">会場・フロア情報</span><span class="tag">高校情報へのリンク</span></div></div></section>
 <main class="wrap">
 <div class="notice"><strong>公開前の確認：</strong>開催日時・会場住所・学校参加一覧は確定情報に差し替えてください。下記のタイムテーブルとフロア案内は、これまでの打ち合わせに基づく仮案です。</div>
@@ -36,6 +36,8 @@
 <div class="floor"><div class="floor-no">7F</div><div><h3>追加資料・個別相談</h3><p>共通資料の閲覧・個別相談（要確認）</p></div></div>
 </div><p class="small">※実際の建物の階数・利用可能エリア・避難経路は、施設管理者の案内を優先してください。</p></section>
 <section class="section" id="schools"><div class="section-head"><h2>香川県の高校を調べる</h2><p>学校名で検索して公式サイトを探せます</p></div><div class="notice">この検索はGoogleで学校名を調べるためのリンクです。参加校一覧や公式URLを確定したものではありません。学校の最新情報は各校の公式発表でご確認ください。</div><div class="searchrow"><input id="schoolQuery" placeholder="例：香川県立 高松高校" aria-label="高校名"><button class="btn" id="searchBtn">学校を検索</button></div><div class="grid"><article class="card"><h3>県立高校</h3><p>学科・通学区域・入試情報などを県や各校の公式情報で確認。</p><p style="margin-top:10px"><a href="https://www.pref.kagawa.lg.jp/" target="_blank" rel="noopener">香川県公式サイト ↗</a></p></article><article class="card"><h3>私立高校</h3><p>コース、学費、入試日程、説明会情報は各校の公式サイトで確認。</p><p style="margin-top:10px"><a href="https://www.google.com/search?q=%E9%A6%99%E5%B7%9D%E7%9C%8C+%E7%A7%81%E7%AB%8B%E9%AB%98%E6%A0%A1+%E5%85%AC%E5%BC%8F" target="_blank" rel="noopener">私立高校の公式情報を探す ↗</a></p></article><article class="card"><h3>入試・募集要項</h3><p>年度によって変更されるため、最新年度の募集要項を必ず確認。</p><p style="margin-top:10px"><a href="https://www.google.com/search?q=%E9%A6%99%E5%B7%9D%E7%9C%8C+%E9%AB%98%E6%A0%A1%E5%85%A5%E8%A9%A6+%E5%8B%9F%E9%9B%86%E8%A6%81%E9%A0%85+%E5%85%AC%E5%BC%8F" target="_blank" rel="noopener">入試情報を探す ↗</a></p></article></div></section>
+
+<section class="section" id="checkin"><div class="section-head"><h2>入場受付（ENTRA）</h2><p>会場到着時にスタッフの案内に従ってご利用ください</p></div><div class="card"><h3>入場チェックイン</h3><p>入場管理システムを開き、受付スタッフの案内に従ってチェックインしてください。</p><p style="margin-top:14px"><a class="btn" href="https://attendapp-izxqos23.manus.space/checkin/fd0Nel-bYNzQo5WkiZ-TAlNhginun0KH" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">ENTRAで入場受付を開く ↗</a></p></div></section>
 
 <section class="section" id="survey">
   <div class="section-head"><h2>アンケート</h2><p>説明会についてのご意見をお聞かせください</p></div>
@@ -74,7 +76,7 @@ document.getElementById('surveyForm').addEventListener('submit',async e=>{
  button.disabled=true;button.textContent='送信中…';message.textContent='';
  const payload={role:document.getElementById('surveyRole').value,satisfaction:Number(document.getElementById('surveySatisfaction').value),useful:document.getElementById('surveyUseful').value,helpful:[],comments:document.getElementById('surveyComments').value.trim()||null};
  try{
-  const response=await fetch(SUPABASE_URL+'/rest/v1/survey_responses',{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});
+  const response=await fetch(SUPABASE_URL+'/rest/v1/survey_responses',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});
   if(!response.ok){const detail=await response.text();throw new Error(detail||'HTTP '+response.status);}
   message.textContent='ご回答ありがとうございました。回答を保存しました。';message.style.color='#187245';document.getElementById('surveyForm').reset();
  }catch(error){console.error('Survey submission failed',error);message.textContent='送信できませんでした。通信状況を確認して、もう一度お試しください。';message.style.color='#a12626';}
