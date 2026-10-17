@@ -40,7 +40,7 @@ document.getElementById('surveyForm').addEventListener('submit',async e=>{
  btn.disabled=true;btn.textContent='送信中…';msg.textContent='';
  const payload={role:document.getElementById('role').value,satisfaction:document.getElementById('satisfaction').value,useful:document.getElementById('useful').value,helpful:[],comments:document.getElementById('comments').value.trim()};
  try{
-  const res=await fetch(SUPABASE_URL+'/rest/v1/survey_responses',{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});
+  const res=await fetch(SUPABASE_URL+'/rest/v1/survey_responses',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});
   if(!res.ok)throw new Error(await res.text());
   msg.textContent='ご回答ありがとうございました。回答を保存しました。';msg.style.color='#187245';e.target.reset();
  }catch(err){console.error(err);msg.textContent='送信できませんでした。設定または通信状況を確認して、もう一度お試しください。';msg.style.color='#a12626';}
