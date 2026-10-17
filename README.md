@@ -1,0 +1,1 @@
+# kagawa-highschool-guide
