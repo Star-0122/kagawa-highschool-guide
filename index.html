@@ -68,19 +68,27 @@
 </main><footer class="footer"><div class="footer-inner"><span>© 2026 そらのほしグループ（仮表記）</span><span>香川県高校説明会｜参加者向け案内</span></div></footer>
 <script>
 const input=document.getElementById('schoolQuery');function searchSchool(){const q=input.value.trim()||'香川県 高校 公式サイト';window.open('https://www.google.com/search?q='+encodeURIComponent(q+' 公式'),'_blank','noopener');}document.getElementById('searchBtn').addEventListener('click',searchSchool);input.addEventListener('keydown',e=>{if(e.key==='Enter')searchSchool();});
-const SUPABASE_URL='https://qwrkvorbjrplpcvibxft.supabase.co';
-const SUPABASE_KEY='sb_publishable_4ycP8syqbz9NT-G3aTb9LA_O4crG6HJ';
-document.getElementById('surveyForm').addEventListener('submit',async e=>{
+let redirectingToSurvey=false;
+document.getElementById('surveyForm').addEventListener('submit',e=>{
  e.preventDefault();
- const button=document.getElementById('surveySubmit'),message=document.getElementById('surveyMessage');
- button.disabled=true;button.textContent='送信中…';message.textContent='';
- const payload={role:document.getElementById('surveyRole').value,satisfaction:Number(document.getElementById('surveySatisfaction').value),useful:document.getElementById('surveyUseful').value,helpful:[],comments:document.getElementById('surveyComments').value.trim()||null};
- try{
-  const response=await fetch(SUPABASE_URL+'/rest/v1/survey_responses',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});
-  if(!response.ok){const detail=await response.text();throw new Error(detail||'HTTP '+response.status);}
-  message.textContent='ご回答ありがとうございました。回答を保存しました。';message.style.color='#187245';document.getElementById('surveyForm').reset();
- }catch(error){console.error('Survey submission failed',error);message.textContent='送信できませんでした。通信状況を確認して、もう一度お試しください。';message.style.color='#a12626';}
- finally{button.disabled=false;button.textContent='アンケートを送信';}
+ if(redirectingToSurvey)return;
+ redirectingToSurvey=true;
+ const button=document.getElementById('surveySubmit');
+ const message=document.getElementById('surveyMessage');
+ message.textContent='アンケートの送信は専用ページからお願いします。10秒後にアンケートページへ移動します。';
+ message.style.color='#173b5e';
+ button.disabled=true;
+ button.textContent='専用ページへ移動します…';
+ let seconds=10;
+ const countdown=setInterval(()=>{
+   seconds--;
+   if(seconds>0){
+     message.textContent='アンケートの送信は専用ページからお願いします。'+seconds+'秒後にアンケートページへ移動します。';
+   }else{
+     clearInterval(countdown);
+     window.location.href='survey.html';
+   }
+ },1000);
 });
-</script>
+
 </body></html>
