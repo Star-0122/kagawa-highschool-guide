@@ -18,6 +18,7 @@ drop policy if exists "Admins can read survey responses" on public.survey_respon
 create policy "Admins can read survey responses" on public.survey_responses for select to authenticated using(public.is_survey_admin());
 revoke all on public.survey_admins from anon,authenticated;
 revoke all on function public.is_survey_admin() from public;
+revoke execute on function public.is_survey_admin() from anon;
 grant execute on function public.is_survey_admin() to authenticated;
 revoke all on public.survey_responses from anon,authenticated;
 grant insert on public.survey_responses to anon,authenticated;
